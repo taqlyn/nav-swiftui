@@ -25,6 +25,20 @@ public final class DeepLinkNavigator<Route: Hashable>: @unchecked Sendable {
 }
 ```
 
+## Installation
+
+### Swift Package Manager
+
+In Xcode: **File → Add Package Dependencies...**, enter `https://github.com/taqlyn/nav-swiftui.git`, and select `TaqlynNavSwiftUI`.
+
+### CocoaPods
+
+In your `Podfile`:
+
+```ruby
+pod 'TaqlynNavSwiftUI', '~> 0.1.0'
+```
+
 - On success, `path` is **replaced** with the mapped routes (not appended).
 - Returns `false` if the mapper returns `nil`/empty, or the same `linkId` already navigated.
 - Bind `@State var path: [Route]` to `NavigationStack(path: $path)`.
