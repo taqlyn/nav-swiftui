@@ -1,0 +1,53 @@
+name: Publish SwiftUI Navigation Adapter (SPM & CocoaPods)
+
+# Swift Package Manager (SPM) is decentralized and driven directly by Git tags.
+# SPM requires ZERO secrets. CocoaPods Trunk publishing runs if COCOAPODS_TRUNK_TOKEN is provided.
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+concurrency:
+  group: publish-nav-swiftui-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish-spm:
+    name: Verify Swift Package (SPM)
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Validate Package.swift Manifest
+        run: swift package dump-package > /dev/null
+
+      - name: Run SPM Tests
+        run: swift test
+
+  publish-cocoapods:
+    name: Publish to CocoaPods Trunk
+    needs: publish-spm
+    runs-on: macos-14
+    if: "${{ env.COCOAPODS_TRUNK_TOKEN != '' }}"
+    env:
+      COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Podspec
+        run: pod ipc spec TaqlynNavSwiftUI.podspec > /dev/null
+
+      - name: Push to CocoaPods Trunk
+        run: pod trunk push TaqlynNavSwiftUI.podspec --allow-warnings

@@ -75,3 +75,10 @@ let navLink = DeferredLink(
 ```bash
 cd packages/nav-swiftui && swift test
 ```
+
+## CI/CD & SPM Distribution
+
+Published via `.github/workflows/publish.yml`:
+- **Swift Package Manager (SPM):** Xcode and `swift package` resolve directly from Git release tags (`v*`). **Zero secrets required.**
+- **CocoaPods Trunk (Optional):** Automatically validates podspec and pushes to CocoaPods Trunk when `COCOAPODS_TRUNK_TOKEN` is present in GitHub Secrets.
+
