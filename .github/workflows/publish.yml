@@ -39,7 +39,6 @@ jobs:
     name: Publish to CocoaPods Trunk
     needs: publish-spm
     runs-on: macos-14
-    if: "${{ env.COCOAPODS_TRUNK_TOKEN != '' }}"
     env:
       COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
     steps:
@@ -49,5 +48,10 @@ jobs:
       - name: Validate Podspec
         run: pod ipc spec TaqlynNavSwiftUI.podspec > /dev/null
 
+      - name: Skip CocoaPods Trunk
+        if: env.COCOAPODS_TRUNK_TOKEN == ''
+        run: echo "COCOAPODS_TRUNK_TOKEN is not set; skipping Trunk publish. SPM still works from the Git tag."
+
       - name: Push to CocoaPods Trunk
+        if: env.COCOAPODS_TRUNK_TOKEN != ''
         run: pod trunk push TaqlynNavSwiftUI.podspec --allow-warnings
