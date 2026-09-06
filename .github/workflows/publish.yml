@@ -1,7 +1,6 @@
 name: Publish SwiftUI Navigation Adapter (SPM & CocoaPods)
 
-# Swift Package Manager (SPM) is decentralized and driven directly by Git tags.
-# SPM requires ZERO secrets. CocoaPods Trunk publishing runs if COCOAPODS_TRUNK_TOKEN is provided.
+# Publish after TaqlynSDK is tagged on GitHub / CocoaPods Trunk.
 
 on:
   release:
