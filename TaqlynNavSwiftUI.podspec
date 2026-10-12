@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'TaqlynNavSwiftUI'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'SwiftUI navigation stack binding for Taqlyn deep links'
   s.description      = <<-DESC
 TaqlynNavSwiftUI provides typed DeepLinkNavigator and NavigationStack bindings
